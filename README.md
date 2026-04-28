@@ -81,12 +81,26 @@ La API estará disponible en `http://localhost:8080`
 
 ### Autenticación (públicos — no requieren token)
 
+> ⚠️ **¿Por qué estos endpoints no requieren token?**
+> Porque es aquí donde el usuario **obtiene** el token. Si register y login también lo pidieran,
+> nadie podría nunca autenticarse — sería un círculo imposible.
+> El flujo correcto es:
+> ```
+> Sin token → /register → crea tu cuenta
+> Sin token → /login    → recibe tu token
+> Con token → /api/users/... → accede a los datos
+> ```
+
 | Método | Ruta | Descripción |
 |---|---|---|
 | `POST` | `/api/auth/register` | Registra un nuevo usuario |
 | `POST` | `/api/auth/login` | Inicia sesión y devuelve el token JWT |
 
 ### Usuarios (protegidos — requieren token)
+
+> 🔐 Todos estos endpoints requieren enviar el token en el header:
+> `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...`
+> El token lo obtienes al hacer login.
 
 | Método | Ruta | Descripción |
 |---|---|---|
